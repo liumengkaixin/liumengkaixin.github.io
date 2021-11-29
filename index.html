@@ -1,196 +1,263 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  
+<html lang="en">
+<html><head>
+	<meta charset="utf-8">
+	<title>布丁日常</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+	<meta name="description" content="布丁日常">
+	<meta name="keywords" content="布丁日常">
+	<meta name="author" content="BOX STUDIO">
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="shortcut icon" href="favicon.ico">
+	<link rel="stylesheet" href="./styles/master.css">
+	<link rel="stylesheet" href="./css/player.css">
+	<link rel="Shortcut Icon" href="./ico/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" href="./css-music/style.css">
+    <link rel="stylesheet" href="./css-music/QPlayer.css">
+    <script src="./js-music/jquery.min.js"></script>
+    <script src="./js-music/jquery.marquee.min.js"></script>
+    <script src="./js-music/QPlayer.js"></script>
+    <script src="./js-music/script.js"></script>
+	
+	<script>
+function secondToDate(second) {
+        if (!second) {
+            return 0;
+        }
+        var time = new Array(0, 0, 0, 0, 0);
+        if (second >= 365 * 24 * 3600) {
+            time[0] = parseInt(second / (365 * 24 * 3600));
+            second %= 365 * 24 * 3600;
+        }
+        if (second >= 24 * 3600) {
+            time[1] = parseInt(second / (24 * 3600));
+            second %= 24 * 3600;
+        }
+        if (second >= 3600) {
+            time[2] = parseInt(second / 3600);
+            second %= 3600;
+        }
+        if (second >= 60) {
+            time[3] = parseInt(second / 60);
+            second %= 60;
+        }
+        if (second > 0) {
+            time[4] = second;
+        }
+        return time;
+    }
+    function setTime() {
+   		 /*此处为网站的创建时间*/
+        var create_time = Math.round(new Date(Date.UTC(2019, 07, 05, 18, 01, 01)).getTime() / 1000);
+        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
+        currentTime = secondToDate((timestamp - create_time));
+        currentTimeHtml = '本站已运行：' + currentTime[0] + '年' + currentTime[1] + '天'
+                + currentTime[2] + '时' + currentTime[3] + '分' + currentTime[4]
+                + '秒';
+        document.getElementById("htmer_time").innerHTML = currentTimeHtml;
+    }
+    setInterval(setTime, 1000);
+    </script>
+	
+</head>
 
-  
-  <title>Hexo</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/index.html">
-<meta property="og:site_name" content="Hexo">
-<meta property="og:locale" content="en_US">
-<meta property="article:author" content="John Doe">
-<meta name="twitter:card" content="summary">
-  
-    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  
-<link rel="stylesheet" href="/css/style.css">
 
-<meta name="generator" content="Hexo 4.2.0"></head>
 
-<body>
-  <div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Hexo</a>
-      </h1>
-      
+<body id="teaser-page">
+<div class="l-stage"><main>
+<div class="l-intro">
+  <div class="intro-btn-skip"><a id="s_st" href="#">S_ST</a></div>
+</div>
+<div class="l-main">
+	<div class="l-first">
+		<div class="first-bg"></div>	
+		<div class="first-flare-wrap">
+			<div class="first-flare01"></div>
+			<div class="first-flare02"></div>
+		</div>	
+		<div class="first-megumi-back"></div>
+		<div class="first-megumi-front"></div>	
+		<div class="first-text-wrap">
+			<div class="first-text-main">
+				<img src="./images/teaser/main_text.png" width="416" height="442" class="pcv">
+				<img src="./images/teaser/main_text_sp.png" class="spv">
+			</div>
+			<div class="first-text">
+				<span class="t1"></span>
+				<span class="t2"></span>
+				<span class="t3"></span>
+				<span class="t4"></span>
+				<span class="t5"></span>
+				<span class="t6"></span>
+				<span class="t7"></span>
+				<span class="t8"></span>
+				<span class="t9"></span>
+				<span class="t10"></span>
+				<span class="t11"></span>
+				<span class="t12"></span>
+				<span class="t13"></span>
+				<span class="t14"></span>
+				<span class="t15"></span>
+				<span class="t16"></span>
+				<span class="t17"></span>
+				<span class="t18"></span>
+				<span class="t19"></span>
+				<span class="t20"></span>
+				<span class="t21"></span>
+				<span class="t22"></span>
+				<span class="t23"></span>
+				<span class="t24"></span>
+				<span class="t25"></span>
+				<span class="t26"></span>
+				<span class="t27"></span>
+				<span class="t28"></span>
+				<span class="t29"></span>
+				<span class="t30"></span>
+				<span class="t31"></span>
+			</div>
+		</div>
+	
+
+<!--第一代播放器
+
+<div id="QPlayer">
+<div id="pContent">
+	<div id="player">
+		<span class="cover"></span>
+		<div class="ctrl">
+			<div class="musicTag marquee">
+				<strong>Title</strong>
+				 <span> - </span>
+				<span class="artist">Artist</span>
+			</div>
+			<div class="progress">
+				<div class="timer left">0:00</div>
+				<div class="contr">
+					<div class="rewind icon"></div>
+					<div class="playback icon"></div>
+					<div class="fastforward icon"></div>
+				</div>
+				<div class="right">
+					<div class="liebiao icon"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="ssBtn">
+	        <div class="adf"></div>
     </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/04/06/hello-world/" class="article-date">
-  <time datetime="2020-04-06T08:36:49.836Z" itemprop="datePublished">2020-04-06</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/04/06/hello-world/">Hello World</a>
-    </h1>
-  
+</div>
+<ol id="playlist"></ol>
+</div>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
+<script src="./js/jquery.min.js"></script>
+<script src="./js/jquery.marquee.min.js"></script>
 
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+<script>
+	var	playlist = [
+{title:"音乐维护中",artist:"歌手",mp3:"./music/music.mp3",cover:"./img/20171216094159_QaLXP.jpeg?param=106x106",},
+];
+  var isRotate = true;
+  var autoplay = false;
+</script>
+<script src="./js/player.js"></script>
+<script>
 
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2020/04/06/hello-world/" data-id="ck8o835by00007ku52ggkhh4i" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
+function bgChange(){
+	var lis= $('.lib');
+	for(var i=0; i<lis.length; i+=2)
+	lis[i].style.background = 'rgba(246, 246, 246, 0.5)';
+}
+window.onload = bgChange;
+</script>
+>-->
 
 
-  
+
+<!--二代播放器、测试中>-->
 
 
-</section>
-        
-          <aside id="sidebar">
-  
-    
 
-  
-    
-
-  
-    
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/04/">April 2020</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2020/04/06/hello-world/">Hello World</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
-        
-      </div>
-      <footer id="footer">
-  
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2020 John Doe<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
-  </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
-    
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-
-
-  
-<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-  
-<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script id="js-code">
+window.QPlayer.list = [
+    {
+        "name": "Nightglow",
+        "artist": "蔡健雅",
+        "audio": "https://cdn.jsdelivr.net/gh/moeshin/QPlayer-res/Nightglow.mp3",
+        "cover": "https://cdn.jsdelivr.net/gh/moeshin/QPlayer-res/Nightglow.jpg",
+        "lrc": "https://cdn.jsdelivr.net/gh/moeshin/QPlayer-res/Nightglow.lrc"
+    },
+];
+</script>
 
 
 
 
-<script src="/js/script.js"></script>
+
+<!--<script type="text/javascript" src="./xuehua/snow.js"></script>圣诞飘雪花/暂时停用-->
+
+		<div class="sakura-front">
+			<div class="sakura-front-l"></div>
+			<div class="sakura-front-m"></div>
+			<div class="sakura-front-s"></div>
+		</div>
+	</div>
+	<div class="l-fix"></div>
+	<div class="l-second">
+		<div class="sakura-back">
+			<div class="sakura-back-l"></div>
+			<div class="sakura-back-m"></div>
+			<div class="sakura-back-s"></div>
+		</div>
+		<div class="l-movie">
+			<div class="movie-ss"></div>
+			<div id="movie-player"></div>
+			<div class="movie-btn">
+				<div class="movie-btn-play">
+					<a target="_blank" href="http://www.liumeng.space/">
+						<img src="./images/teaser/main_movie_btn_play.png" width="401" height="257">
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="l-news-wrap">
+			<div class="l-news">
+				<div class="news-btn-more">
+					<a target="_blank" href="http://www.liume.club/">进入萌站</a>
+				</div>
+				<div class="link-btn-1st_site pcv">
+					<a target="_blank" href="http://www.liume.club/mikutap/index.html">Mikutap</a>
+				</div>
+			</div>
+			<div class="l-twitter">
+				<div class="twitter-btn-more">
+					<a target="_blank" href="http://www.liumeng.space/yousa/index.html">合成大胖鸟</a>
+				</div>
+				<div class="link-btn-1st_site">
+					<a target="_blank" href="http://www.liume.club/zheshan/index.html">个人简介</a>
+				</div>
+				<div class="link-btn-radio">
+					<a target="_blank" href="http://www.liumeng.space/404.html">我的爱[测试]</a>
+				</div>
+			</div>
+		</div>
+		<footer class="l-footer">
+		  <center><a href="https://icp.gov.moe" target="_blank"><img src="http://www.liume.club/icon/ico16.ico"></a><a href="https://icp.gov.moe/?keyword=www.liumeng.space">萌ICP备  2020123123号[滑稽]</a></center>
+          <center><p id="htmer_time" style="color: #fd7286;font-size: large;font-weight: bolder"></center>
+		  <p class="footer-copy">Copyright © 2019 - 2021 咻咻动漫 All Rights Reserved  <a href="http://www.liume.club/" target="_blank">随心所欲</a>
+		  </p>
+		</footer>
+	</div>
+</div>
+</main></div><script src="./scripts/libs.min.js"></script><script src="./scripts/functions.min.js"></script>
 
 
 
 
-  </div>
+
 </body>
+
+
 </html>
