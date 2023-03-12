@@ -1,16 +1,93 @@
-if (!window.QPlayer) {
-    window.QPlayer = {};
+var $ = require('jquery');
+require('jquery.simplemarquee');
+var Cookies = require('js-cookie');
+var md5 = require('blueimp-md5');
+var fs = require('fs');
+
+var
+    CACHE_LIST_REGEX = /QPlayer-[a-z\d]{32}/,
+    PLAYING_KEY = getLocalStorageName('playing'),
+    COVER_TIMEOUT = 500
+;
+
+function s2m(s) {
+    var m = Math.floor(s / 60);
+    s = Math.floor(s % 60);
+    if (m < 10) {
+        m = '0' + m;
+    }
+    if (s < 10) {
+        s = '0' + s;
+    }
+    return m + ':' + s;
 }
-window.QPlayer.init = function () {
+
+function getTime() {
+    return new Date().getTime();
+}
+
+function getLocalStorageName(name) {
+    return 'QPlayer-' + name;
+}
+
+function setStringFromLocalStorage(name, value) {
+    localStorage.setItem(getLocalStorageName(name), value);
+}
+
+if (Cookies.get('QPlayer') === undefined) {
+    // clean cache
+    var length = localStorage.length;
+    for (var i = 0; i < length; i++) {
+        var key = localStorage.key(i);
+        if (CACHE_LIST_REGEX.test(key)) {
+            localStorage.removeItem(key);
+        }
+    }
+    localStorage.removeItem(getLocalStorageName('playing'));
+    Cookies.set('QPlayer', '', {
+        path: '/',
+        sameSite: 'strict'
+    });
+}
+
+var q = window.QPlayer = $.extend(true, {
+    defaultProvider: 'default',
+    provider: {
+        default: {
+            dataType: '*',
+            lyrics: function (current, success) {
+                var url = current.lrc;
+                if (!url) {
+                    return;
+                }
+                var dataType = this.dataType;
+                $.ajax({
+                    url: url,
+                    dataType: dataType,
+                    success: function (lrc) {
+                        if (!lrc) {
+                            return;
+                        }
+                        success(lrc);
+                    }
+                });
+            }
+        }
+    }
+}, window.QPlayer || {});
+q = $.extend(q, {
+    $: $,
+    version: process.env.npm_package_version
+});
+q.init = function () {
 
     if (document.getElementById('QPlayer')) {
         return;
     }
 
-    $('body').append('<div id="QPlayer"><div id="QPlayer-body"><div id="QPlayer-panel"><div id="QPlayer-cover"><svg id="QPlayer-cover-default" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><circle cx="32" cy="32" r="32" style="fill:#222"/><circle cx="32" cy="32" r="16"/><circle cx="32" cy="32" r="12" style="fill:#e12"/><circle cx="32" cy="32" r="1.2" style="fill:#fff"/></svg></div><div id="QPlayer-control"><div id="QPlayer-title"><strong id="QPlayer-name"></strong> -<span id="QPlayer-artist"></span></div><div id="QPlayer-progress"><div id="QPlayer-progress-current" style="width: 0;"></div></div><div id="QPlayer-control-bar"><div id="QPlayer-time">00:00</div><div id="QPlayer-control-play"><svg id="QPlayer-btn-previous" xmlns="http://www.w3.org/2000/svg" viewBox="6 6 12 12"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg><svg id="QPlayer-btn-next" xmlns="http://www.w3.org/2000/svg" viewBox="6 6 12 12"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg><div id="QPlayer-btn-play"><svg id="QPlayer-play" xmlns="http://www.w3.org/2000/svg" viewBox="16 10 22 28"><path d="M16 10v28l22-14z"/></svg><svg id="QPlayer-pause" xmlns="http://www.w3.org/2000/svg" viewBox="12 10 24 28"><path d="M12 38h8V10h-8v28zm16-28v28h8V10h-8z"/></svg></div></div><div id="QPlayer-control-more"><div id="QPlayer-btn-mode"><svg id="QPlayer-btn-repeat" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 7h10v3l4-4-4-4v3H5v6h2V7zm10 10H7v-3l-4 4 4 4v-3h12v-6h-2v4z"/></svg><svg id="QPlayer-btn-shuffle" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10.59 9.17L5.41 4 4 5.41l5.17 5.17 1.42-1.41zM14.5 4l2.04 2.04L4 18.59 5.41 20 17.96 7.46 20 9.5V4h-5.5zm.33 9.41l-1.41 1.41 3.13 3.13L14.5 20H20v-5.5l-2.04 2.04-3.13-3.13z"/></svg></div><svg id="QPlayer-btn-list" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><path d="M7 10h9V8H7v2zm0-7v2h9V3H7zm0 12h9v-2H7v2zm-4-5h2V8H3v2zm0-7v2h2V3H3zm0 12h2v-2H3v2z"/></svg><svg id="QPlayer-btn-lyrics" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 18 18"><path d="M4 14v2h10v-2H4zm0-8v2h10V6H4zm-2 6h14v-2H2v2zM2 2v2h14V2H2z"/></svg></div></div></div></div><div id="QPlayer-switch"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg></div></div><div id="QPlayer-more"><ol id="QPlayer-list"></ol><div id="QPlayer-lyrics"></div></div><audio id="QPlayer-audio"></audio></div>');
-
-    var q = window.QPlayer;
     var v = {};
+
+    $('body').append(fs.readFileSync('./QPlayer.htm', 'utf8'));
 
     var
         $q = $('#QPlayer'),
@@ -23,40 +100,14 @@ window.QPlayer.init = function () {
         $progress = $('#QPlayer-progress'),
         $progressCurrent = $('#QPlayer-progress-current'),
         $lyrics = $('#QPlayer-lyrics'),
-        $mode = $('#QPlayer-btn-mode')
+        $mode = $('#QPlayer-btn-mode'),
+        audio = $audio[0]
     ;
 
-    var
-        audio = $audio[0],
-        coverTimeout = 500
-    ;
+    var $lyricsList, $listLi, isLoadPause, isPrevisionPlay, errorStartIndex, isAllError, setCoverTime, loadedList,
+        listLocalStorageName, playTime;
 
-    var $lyricsList, $listLi, isLoadPause, isPrevisionPlay, errorStartIndex, isAllError, setCoverTime;
-
-    q.version = '2.0.6';
     q.audio = audio;
-    q.defaultProvider = q.defaultProvider || 'default';
-    q.provider = q.provider || {};
-    q.provider.default = q.provider.default || {
-        dataType: '*',
-        lyrics: function (current, success) {
-            var url = current.lrc;
-            if (!url) {
-                return;
-            }
-            var dataType = this.dataType;
-            $.ajax({
-                url: url,
-                dataType: dataType,
-                success: function (lrc) {
-                    if (!lrc) {
-                        return;
-                    }
-                    success(lrc);
-                }
-            });
-        }
-    };
 
     function Shuffle(index) {
         var _this = this;
@@ -146,7 +197,19 @@ window.QPlayer.init = function () {
 
     function onPlay() {
         $q.addClass('QPlayer-playing');
-        $title.marquee('resume');
+        $title.simplemarquee('resume');
+        playTime = getTime().toString();
+        updatePlaying();
+        if (v.isPauseOtherWhenPlay) {
+            $('audio, video').each(function () {
+                if (this === audio) {
+                    return;
+                }
+                if (!this.paused) {
+                    this.pause();
+                }
+            });
+        }
     }
 
     function onPause() {
@@ -155,19 +218,16 @@ window.QPlayer.init = function () {
             return;
         }
         $q.removeClass('QPlayer-playing');
-        $title.marquee('pause');
+        $title.simplemarquee('pause');
+        removePlaying();
     }
 
-    function s2m(s) {
-        var m = Math.floor(s / 60);
-        s = Math.floor(s % 60);
-        if (m < 10) {
-            m = '0' + m;
+    function onMediaPlay(e) {
+        var media = e.target;
+        var name = media.nodeName.toLowerCase();
+        if (media !== audio && (name === 'video' || name === 'audio')) {
+            audio.pause();
         }
-        if (s < 10) {
-            s = '0' + s;
-        }
-        return m + ':' + s;
     }
 
     function getListLi(index) {
@@ -403,12 +463,12 @@ window.QPlayer.init = function () {
 
     function initCover() {
         setTimeout(function () {
-            if (setCoverTime >= new Date().getTime() - coverTimeout) {
+            if (setCoverTime >= getTime() - COVER_TIMEOUT) {
                 return;
             }
             $cover.css('background-image', '');
             $cover.addClass('QPlayer-cover-no');
-        }, coverTimeout);
+        }, COVER_TIMEOUT);
     }
 
     function initLoad() {
@@ -418,7 +478,7 @@ window.QPlayer.init = function () {
         $progressCurrent.width('0');
         audio.currentTime = 0;
         initCover();
-        $title.marquee('destroy');
+        $title.simplemarquee('destroy');
     }
 
     function init() {
@@ -499,16 +559,18 @@ window.QPlayer.init = function () {
         }
         $title.html(title);
         if (isNeedMarquee()) {
-            $title.marquee({
-                duration: 10000,
-                gap: 40,
-                delayBeforeStart: 1000,
-                duplicated: true,
-                startVisible: true
-            }).marquee('pause');
+            $title.simplemarquee({
+                space: 16,
+                speed: 20,
+                cycles: 'Infinity',
+                handleHover: false,
+                handleResize: false,
+                delayBetweenCycles: 8000
+            }).simplemarquee('pause');
         }
         q.index = index;
         q.current = current;
+        localStorage.setItem(listLocalStorageName, index.toString());
         var provider = getProvider(current);
         provider.call('cover', function (url, cache) {
             if (isAllError || !url) {
@@ -588,27 +650,40 @@ window.QPlayer.init = function () {
         }
         function audioPlay() {
             function catchError(e) {
-                if (e.name === 'AbortError') {
-                    return;
+                switch (e.name) {
+                    case 'AbortError':
+                        return;
+                    case 'NotAllowedError':
+                        onPause();
+                        if (!canAutoplay()) {
+                            bindEventOnce(document, 'mousedown keydown', function () {
+                                audioPlay();
+                            });
+                            return;
+                        }
+                        break;
+                    default:
+                        error = true;
                 }
-                error = true;
                 console.error([e]);
             }
             var error = false;
             var promise = null;
             try {
                 promise = audio.play();
-                if (typeof Promise === 'function' && promise instanceof Promise) {
-                    promise
-                        .then(function () {
-                            getListLi(getIndex()).removeClass('QPlayer-list-error');
-                        })
-                        .catch(catchError);
-                }
             } catch (e) {
                 catchError(e);
             }
-            if (!error && !(typeof Promise === 'function' && promise instanceof Promise)) {
+            // noinspection JSUnresolvedVariable
+            if (typeof Promise === 'function' && promise instanceof Promise) {
+                promise
+                    .then(function () {
+                        getListLi(getIndex()).removeClass('QPlayer-list-error');
+                    })
+                    .catch(catchError);
+            }
+            // noinspection JSUnresolvedVariable
+            if (!error && !(typeof Promise === 'function' && promise instanceof Promise)) {
                 getListLi(getIndex()).removeClass('QPlayer-list-error');
             }
         }
@@ -628,6 +703,26 @@ window.QPlayer.init = function () {
             audioPlay();
         }, error);
         return 3;
+    }
+
+    function bindEventOnce(selector, types, fn) {
+        var jq = $(selector);
+        var listener = function () {
+            fn(...arguments);
+            jq.off(types, listener);
+        }
+        jq.on(types, listener);
+    }
+
+    function canAutoplay() {
+        if (typeof AudioContext !== 'function') {
+            return true;
+        }
+        var context = new AudioContext();
+        var r = context.state === 'running';
+        // noinspection JSIgnoredPromiseFromCall
+        context.close();
+        return r;
     }
 
     q.play = function (index, isPrevious) {
@@ -752,6 +847,12 @@ window.QPlayer.init = function () {
             if (!isProgressClicked) {
                 $progressCurrent.width(100 * time / audio.duration + '%');
             }
+            var playing = localStorage.getItem(PLAYING_KEY);
+            if (playing === null) {
+                updatePlaying();
+            } else if (playing !== playTime) {
+                q.pause();
+            }
         })
         .on('error', function () {
             console.log('error', arguments);
@@ -802,7 +903,7 @@ window.QPlayer.init = function () {
         isProgressClicked = true;
         moveProgress(e);
     });
-    $(document)
+    $(window)
         .on('mouseup touchend', function (e) {
             if (!isProgressClicked) {
                 return;
@@ -826,25 +927,22 @@ window.QPlayer.init = function () {
                 lyrics.goto(lyrics.find(time * 1000));
             }
         })
-        .on('mousemove touchmove', moveProgress);
+        .on('mousemove touchmove', moveProgress)
+        .on('unload', function () {
+            removePlaying();
+        });
 
     initNoSongs();
 
-    function getLocalStorageName(name) {
-        return 'QPlayer-' + name;
+    function updatePlaying() {
+        localStorage.setItem(PLAYING_KEY, playTime);
     }
 
-    function getBoolFromLocalStorage(name) {
-        var value = localStorage.getItem(getLocalStorageName(name));
-        return !!(value && value !== 'false');
-    }
-
-    function setBoolFromLocalStorage(name, value) {
-        localStorage.setItem(getLocalStorageName(name), value);
-    }
-
-    function hasLocalStorageName(name) {
-        return localStorage.hasOwnProperty(getLocalStorageName(name));
+    function removePlaying() {
+        var playing = localStorage.getItem(PLAYING_KEY);
+        if (playing !== null && playing === playTime) {
+            localStorage.removeItem(PLAYING_KEY);
+        }
     }
 
     function defineProperties(obj, properties) {
@@ -857,9 +955,12 @@ window.QPlayer.init = function () {
         Object.defineProperties(obj, properties);
         for (var i2 = 0; i2 < length; ++i2) {
             var key2 = keys[i2];
-            if (properties[key2].type === 'bool' && hasLocalStorageName(key2)) {
-                obj[key2] = getBoolFromLocalStorage(key2);
-                continue;
+            if (properties[key2].type === 'bool') {
+                var value = localStorage.getItem(getLocalStorageName(key2));
+                if (value !== null) {
+                    obj[key2] = value === 'true';
+                    continue;
+                }
             }
             obj[key2] = v[key2] || properties[key2].default;
         }
@@ -872,7 +973,7 @@ window.QPlayer.init = function () {
             },
             set: function (value) {
                 v.isShuffle = value;
-                setBoolFromLocalStorage('isShuffle', value);
+                setStringFromLocalStorage('isShuffle', value);
                 if (value) {
                     $mode.addClass('QPlayer-shuffle');
                     var index = q.index;
@@ -891,7 +992,7 @@ window.QPlayer.init = function () {
             },
             set: function (value) {
                 v.isRotate = value;
-                setBoolFromLocalStorage('isRotate', value);
+                setStringFromLocalStorage('isRotate', value);
                 if (value) {
                     $cover.addClass('QPlayer-cover-rotate');
                 } else {
@@ -900,6 +1001,43 @@ window.QPlayer.init = function () {
             },
             type: 'bool',
             default: true
+        },
+        isAutoplay: {
+            get: function () {
+                return v.isAutoplay;
+            },
+            set: function (value) {
+                v.isAutoplay = value;
+                if (loadedList && value) {
+                    q.play();
+                }
+            }
+        },
+        isPauseOtherWhenPlay: {
+            get: function () {
+                return v.isPauseOtherWhenPlay;
+            },
+            set: function (value) {
+                v.isPauseOtherWhenPlay = value;
+            },
+            type: 'bool',
+            default: true
+        },
+        isPauseWhenOtherPlay: {
+            get: function () {
+                return v.isPauseWhenOtherPlay;
+            },
+            set: function (value) {
+                v.isPauseWhenOtherPlay = value;
+                (value ? document.addEventListener : document.removeEventListener)('play', onMediaPlay, true);
+            },
+            type: 'bool',
+            default: true
+        },
+        loadedList: {
+            get: function () {
+                return loadedList;
+            }
         },
         list: {
             get: function () {
@@ -910,7 +1048,9 @@ window.QPlayer.init = function () {
                     console.warn('list 应该是数组');
                     return;
                 }
+                loadedList = false;
                 v.list = value;
+                listLocalStorageName = getLocalStorageName(md5(value));
                 var length = value.length;
                 if (length === 0) {
                     initNoSongs();
@@ -929,12 +1069,26 @@ window.QPlayer.init = function () {
                 q.pause();
                 $list.html(html);
                 $listLi = $list.children();
-                if (q.index > -1 && q.current && length > q.index && value[q.index] === q.current) { // 已加载保持不变
-                    return;
+                if (!(q.index > -1 && q.current && length > q.index && value[q.index] === q.current)) {
+                    // if not append song
+                    init();
+                    var index = -1;
+                    item = localStorage.getItem(listLocalStorageName);
+                    if (item !== null) {
+                        index = parseInt(item);
+                    }
+                    if (isNaN(index) || index < 0 || index >= length) {
+                        index = getNextIndex();
+                    }
+                    if (q.shuffle) {
+                        q.shuffle = new Shuffle(index);
+                    }
+                    q.load(index);
                 }
-                init();
-                // noinspection JSCheckFunctionSignatures
-                q.load(getNextIndex());
+                loadedList = true;
+                if (q.isAutoplay && localStorage.getItem(PLAYING_KEY) === null) {
+                    q.play();
+                }
             },
             type: 'list',
             default: []
@@ -943,4 +1097,3 @@ window.QPlayer.init = function () {
 };
 
 $(window.QPlayer.init);
-
