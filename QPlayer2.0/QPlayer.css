@@ -2,7 +2,7 @@
     z-index: 10;
     position: fixed;
     left: -264px;
-    bottom: 200px;
+    bottom: 350px;
     transition: transform .8s;
     pointer-events: none;
     font-size: 12px;
