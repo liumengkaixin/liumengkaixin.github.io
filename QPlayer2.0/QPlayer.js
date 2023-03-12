@@ -8017,3 +8017,7 @@ $(window.QPlayer.init);
 }));
 
 },{"jquery":4}]},{},[1]);
+
+QPlayer.provider.meto.playlist(function (list) {
+    QPlayer.list = list;
+}, '923027865');
