@@ -1,263 +1,242 @@
 <!DOCTYPE html>
-<html lang="en">
-<html><head>
-	<meta charset="utf-8">
-	<title>布丁日常</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-	<meta name="description" content="布丁日常">
-	<meta name="keywords" content="布丁日常">
-	<meta name="author" content="BOX STUDIO">
-	<meta name="viewport" content="width=device-width,user-scalable=no">
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	<link rel="shortcut icon" href="favicon.ico">
-	<link rel="stylesheet" href="./styles/master.css">
-	<link rel="stylesheet" href="./css/player.css">
-	<link rel="Shortcut Icon" href="./ico/favicon.ico" type="image/x-icon" />
-	<link rel="stylesheet" href="./css-music/style.css">
-    <link rel="stylesheet" href="./css-music/QPlayer.css">
-    <script src="./js-music/jquery.min.js"></script>
-    <script src="./js-music/jquery.marquee.min.js"></script>
-    <script src="./js-music/QPlayer.js"></script>
-    <script src="./js-music/script.js"></script>
-	
-	<script>
-function secondToDate(second) {
-        if (!second) {
-            return 0;
-        }
-        var time = new Array(0, 0, 0, 0, 0);
-        if (second >= 365 * 24 * 3600) {
-            time[0] = parseInt(second / (365 * 24 * 3600));
-            second %= 365 * 24 * 3600;
-        }
-        if (second >= 24 * 3600) {
-            time[1] = parseInt(second / (24 * 3600));
-            second %= 24 * 3600;
-        }
-        if (second >= 3600) {
-            time[2] = parseInt(second / 3600);
-            second %= 3600;
-        }
-        if (second >= 60) {
-            time[3] = parseInt(second / 60);
-            second %= 60;
-        }
-        if (second > 0) {
-            time[4] = second;
-        }
-        return time;
-    }
-    function setTime() {
-   		 /*此处为网站的创建时间*/
-        var create_time = Math.round(new Date(Date.UTC(2019, 07, 05, 18, 01, 01)).getTime() / 1000);
-        var timestamp = Math.round((new Date().getTime() + 8 * 60 * 60 * 1000) / 1000);
-        currentTime = secondToDate((timestamp - create_time));
-        currentTimeHtml = '本站已运行：' + currentTime[0] + '年' + currentTime[1] + '天'
-                + currentTime[2] + '时' + currentTime[3] + '分' + currentTime[4]
-                + '秒';
-        document.getElementById("htmer_time").innerHTML = currentTimeHtml;
-    }
-    setInterval(setTime, 1000);
-    </script>
-	
-</head>
-
-
-
-<body id="teaser-page">
-<div class="l-stage"><main>
-<div class="l-intro">
-  <div class="intro-btn-skip"><a id="s_st" href="#">S_ST</a></div>
-</div>
-<div class="l-main">
-	<div class="l-first">
-		<div class="first-bg"></div>	
-		<div class="first-flare-wrap">
-			<div class="first-flare01"></div>
-			<div class="first-flare02"></div>
-		</div>	
-		<div class="first-megumi-back"></div>
-		<div class="first-megumi-front"></div>	
-		<div class="first-text-wrap">
-			<div class="first-text-main">
-				<img src="./images/teaser/main_text.png" width="416" height="442" class="pcv">
-				<img src="./images/teaser/main_text_sp.png" class="spv">
-			</div>
-			<div class="first-text">
-				<span class="t1"></span>
-				<span class="t2"></span>
-				<span class="t3"></span>
-				<span class="t4"></span>
-				<span class="t5"></span>
-				<span class="t6"></span>
-				<span class="t7"></span>
-				<span class="t8"></span>
-				<span class="t9"></span>
-				<span class="t10"></span>
-				<span class="t11"></span>
-				<span class="t12"></span>
-				<span class="t13"></span>
-				<span class="t14"></span>
-				<span class="t15"></span>
-				<span class="t16"></span>
-				<span class="t17"></span>
-				<span class="t18"></span>
-				<span class="t19"></span>
-				<span class="t20"></span>
-				<span class="t21"></span>
-				<span class="t22"></span>
-				<span class="t23"></span>
-				<span class="t24"></span>
-				<span class="t25"></span>
-				<span class="t26"></span>
-				<span class="t27"></span>
-				<span class="t28"></span>
-				<span class="t29"></span>
-				<span class="t30"></span>
-				<span class="t31"></span>
-			</div>
-		</div>
-	
-
-<!--第一代播放器
-
-<div id="QPlayer">
-<div id="pContent">
-	<div id="player">
-		<span class="cover"></span>
-		<div class="ctrl">
-			<div class="musicTag marquee">
-				<strong>Title</strong>
-				 <span> - </span>
-				<span class="artist">Artist</span>
-			</div>
-			<div class="progress">
-				<div class="timer left">0:00</div>
-				<div class="contr">
-					<div class="rewind icon"></div>
-					<div class="playback icon"></div>
-					<div class="fastforward icon"></div>
-				</div>
-				<div class="right">
-					<div class="liebiao icon"></div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="ssBtn">
-	        <div class="adf"></div>
-    </div>
-</div>
-<ol id="playlist"></ol>
-</div>
-
-<script src="./js/jquery.min.js"></script>
-<script src="./js/jquery.marquee.min.js"></script>
-
-<script>
-	var	playlist = [
-{title:"音乐维护中",artist:"歌手",mp3:"./music/music.mp3",cover:"./img/20171216094159_QaLXP.jpeg?param=106x106",},
-];
-  var isRotate = true;
-  var autoplay = false;
-</script>
-<script src="./js/player.js"></script>
-<script>
-
-function bgChange(){
-	var lis= $('.lib');
-	for(var i=0; i<lis.length; i+=2)
-	lis[i].style.background = 'rgba(246, 246, 246, 0.5)';
-}
-window.onload = bgChange;
-</script>
->-->
-
-
-
-<!--二代播放器、测试中>-->
-
-
-
-<script id="js-code">
-window.QPlayer.list = [
-    {
-        "name": "Nightglow",
-        "artist": "蔡健雅",
-        "audio": "https://cdn.jsdelivr.net/gh/moeshin/QPlayer-res/Nightglow.mp3",
-        "cover": "https://cdn.jsdelivr.net/gh/moeshin/QPlayer-res/Nightglow.jpg",
-        "lrc": "https://cdn.jsdelivr.net/gh/moeshin/QPlayer-res/Nightglow.lrc"
-    },
-];
-</script>
-
-
-
-
-
-<!--<script type="text/javascript" src="./xuehua/snow.js"></script>圣诞飘雪花/暂时停用-->
-
-		<div class="sakura-front">
-			<div class="sakura-front-l"></div>
-			<div class="sakura-front-m"></div>
-			<div class="sakura-front-s"></div>
-		</div>
-	</div>
-	<div class="l-fix"></div>
-	<div class="l-second">
-		<div class="sakura-back">
-			<div class="sakura-back-l"></div>
-			<div class="sakura-back-m"></div>
-			<div class="sakura-back-s"></div>
-		</div>
-		<div class="l-movie">
-			<div class="movie-ss"></div>
-			<div id="movie-player"></div>
-			<div class="movie-btn">
-				<div class="movie-btn-play">
-					<a target="_blank" href="http://www.liumeng.space/">
-						<img src="./images/teaser/main_movie_btn_play.png" width="401" height="257">
-					</a>
-				</div>
-			</div>
-		</div>
-		<div class="l-news-wrap">
-			<div class="l-news">
-				<div class="news-btn-more">
-					<a target="_blank" href="http://www.liume.club/">进入萌站</a>
-				</div>
-				<div class="link-btn-1st_site pcv">
-					<a target="_blank" href="http://www.liume.club/mikutap/index.html">Mikutap</a>
-				</div>
-			</div>
-			<div class="l-twitter">
-				<div class="twitter-btn-more">
-					<a target="_blank" href="http://www.liumeng.space/yousa/index.html">合成大胖鸟</a>
-				</div>
-				<div class="link-btn-1st_site">
-					<a target="_blank" href="http://www.liume.club/zheshan/index.html">个人简介</a>
-				</div>
-				<div class="link-btn-radio">
-					<a target="_blank" href="http://www.liumeng.space/404.html">我的爱[测试]</a>
-				</div>
-			</div>
-		</div>
-		<footer class="l-footer">
-		  <center><a href="https://icp.gov.moe" target="_blank"><img src="http://www.liume.club/icon/ico16.ico"></a><a href="https://icp.gov.moe/?keyword=www.liumeng.space">萌ICP备  2020123123号[滑稽]</a></center>
-          <center><p id="htmer_time" style="color: #fd7286;font-size: large;font-weight: bolder"></center>
-		  <p class="footer-copy">Copyright © 2019 - 2021 咻咻动漫 All Rights Reserved  <a href="http://www.liume.club/" target="_blank">随心所欲</a>
-		  </p>
-		</footer>
-	</div>
-</div>
-</main></div><script src="./scripts/libs.min.js"></script><script src="./scripts/functions.min.js"></script>
-
-
-
-
-
-</body>
-
-
+<html lang="zh-CN">
+	<head>
+		<title>神龙云计算</title>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<link rel="shortcut icon" href="./favicon.ico">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link href="./assets/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="./js/Swiper-3.4.2/dist/css/swiper.min.css" />
+		<link rel="stylesheet" type="text/css" href="./css/animate.min.css"/>
+		<script src="./js/jquery.js"></script>
+		<script src="./js/Swiper-3.4.2/dist/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./js/swiper.animate1.0.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<style>
+			*{margin: 0; padding: 0;}
+			html, body {
+		        position: relative;
+		        height: 100%;
+		    }
+		    body {
+		        background: #eee;
+		        font-family: tahoma,"microsoft yahei","\5FAE\8F6F\96C5\9ED1"!important;
+		        font-size: 14px;
+		        color:#000;
+		        margin: 0;
+		        padding: 0;
+		    }
+		    .swiper-container {
+		        width: 100%;
+		        height: 100%;
+		    }
+		    .swiper-slide {
+		        text-align: center;
+		        font-size: 18px;
+		        background: #fff;
+		
+		        /* Center slide text vertically */
+		        display: -webkit-box;
+		        display: -ms-flexbox;
+		        display: -webkit-flex;
+		        display: flex;
+		        -webkit-box-pack: center;
+		        -ms-flex-pack: center;
+		        -webkit-justify-content: center;
+		        justify-content: center;
+		        -webkit-box-align: center;
+		        -ms-flex-align: center;
+		        -webkit-align-items: center;
+		        align-items: center;
+		        font-size:14px;
+		        line-height: 24px;
+		        color: #fff;
+		    }
+		    
+		    .next{
+				position: absolute;
+				z-index: 550;
+				pointer-events: none;
+				display: none;
+			}
+			.vertical-next{
+				left: 50%;
+				bottom: 15px;
+				transform: translate(-50%);
+				-webkit-transform: translate(-50%);
+				-ms-transform: translate(-50%);
+			}
+			.next > div{
+				-webkit-animation: verticalnext 1s linear alternate infinite;
+				animation: verticalnext 1s linear alternate infinite;
+			}
+			.horizontal-next{
+				top: 50%;
+				right: 15px;
+				transform: rotate(-90deg) translate(50%);
+				-webkit-transform: rotate(-90deg) translate(50%);
+				-ms-transform: rotate(-90deg) translate(50%);
+			}
+			@-webkit-keyframes verticalnext{
+				0%{-webkit-transform: translateY(0px);opacity: 0;}
+				100%{-webkit-transform: translateY(9px);opacity: 1}
+			}
+			.next img{
+				max-width: 100px;
+				max-height: 100px;
+			}
+			@-webkit-keyframes horizontalnext{
+				0%{-webkit-transform: translateX(0px);opacity: 0;}
+				100%{-webkit-transform: translateX(9px);opacity: 1}
+			}
+		    
+		    .slide1{background-size: cover; background-position: center; background-image: url(img/bg2/1.jpg);}
+		    .slide2{background-size: cover; background-position: center; background-image: url(img/bg2/2.jpg);}
+		    .slide3{background-size: cover; background-position: center; background-image: url(img/bg2/3.jpg);}
+		    .slide4{background-size: cover; background-position: center; background-image: url(img/bg2/4.jpg);}
+		    .slide5{background-size: cover; background-position: center; background-image: url(img/bg2/5.jpg);}
+		    .slide6{background-size: cover; background-position: center; background-image: url(img/bg2/6.jpg);}
+		    .slide7{background-size: cover; background-position: center; background-image: url(img/bg2/7.jpg);}
+		    
+		    .slide1 h1{margin-top: 100px;}
+		    
+		    
+		    .line{border-bottom: 1px solid #acb2bd;}
+		    .line .title{background: none;}
+		</style>
+	</head>
+	<body>
+		<!-- Swiper -->
+	    <div class="swiper-container">
+	        <div class="swiper-wrapper">
+	            <div class="swiper-slide slide1">
+	            		<div class="container">
+	            			<div style="transform: scale(0.7);">
+		            			<div style="margin-top: 2%;"><img src="img/logo.png"/></div>
+		            			<div style="margin-top: 4%;"><img src="img/1-2.png"  class="ani" swiper-animate-effect="pulse"/></div>
+		            			<div style="margin-top: 60px; color: #acb2bd; line-height: 32px; font-size:20px;" class="ani" swiper-animate-effect="fadeInRight" swiper-animate-duration="0.8s" swiper-animate-delay="0.3s">爱好铁路，航空，无线电，气象，天文观测，软路由，动漫，航天，EVE</div>
+		            			<div style="margin-top: 60px; color: #acb2bd; line-height: 32px; font-size:20px;" class="ani" swiper-animate-effect="fadeInRight" swiper-animate-duration="0.8s" swiper-animate-delay="0.8s">济局西段 无线电4区 BI4JYQ</div>
+	            			</div>
+	            		</div>
+	            </div>
+	            <div class="swiper-slide slide2">
+	            		<div class="container">
+	            			<div style="transform: scale(0.7); background: url(img/line.png) no-repeat center; height: 629px; position: relative;">
+	            				<div class="ani" swiper-animate-effect="pulse" style="position: relative; top: -20%; width: 100%; text-align: center;"><img src="img/2-0.png"/></div>
+	            				<div style="position: absolute; left: 50%;top:-40px; margin-left: -570px;" class="ani" swiper-animate-effect="fadeInLeft"><img src="img/2-1.png"/></div>	
+	            				<div style="position: absolute; right: 50%;top:26px; margin-right: -570px;" class="ani" swiper-animate-effect="fadeInRight" swiper-animate-delay="0.3s"><img src="img/2-2.png"/></div>
+	            				<div style="position: absolute; left: 50%;top:96px; margin-left: -570px;" class="ani" swiper-animate-effect="fadeInLeft" swiper-animate-delay="0.6s"><img src="img/2-3.png"/></div>	
+	            				<div style="position: absolute; right: 50%;top:162px; margin-right: -570px;" class="ani" swiper-animate-effect="fadeInRight" swiper-animate-delay="0.9s"><img src="img/2-4.png"/></div>
+	            				<div style="position: absolute; left: 50%;top:230px; margin-left: -570px;" class="ani" swiper-animate-effect="fadeInLeft" swiper-animate-delay="1.2s"><img src="img/2-5.png"/></div>	
+	            				<div style="position: absolute; right: 50%;top:294px; margin-right: -570px;" class="ani" swiper-animate-effect="fadeInRight" swiper-animate-delay="1.5s"><img src="img/2-6.png"/></div>
+	            				<div style="position: absolute; left: 50%;top:360px; margin-left: -570px;" class="ani" swiper-animate-effect="fadeInLeft" swiper-animate-delay="1.8s"><img src="img/2-7.png"/></div>	
+	            				<div style="position: absolute; right: 50%;top:430px; margin-right: -570px;" class="ani" swiper-animate-effect="fadeInRight" swiper-animate-delay="2.1s"><img src="img/2-8.png"/></div>
+	            				<div style="position: absolute; left: 50%;top:498px; margin-left: -570px;" class="ani" swiper-animate-effect="fadeInLeft" swiper-animate-delay="2.4s"><img src="img/2-9.png"/></div>	
+	            				<div style="position: absolute; right: 50%;top:564px; margin-right: -570px;" class="ani" swiper-animate-effect="fadeInRight" swiper-animate-delay="2.7s"><img src="img/2-10.png"/></div>
+	            				<div style="position: absolute; bottom: -12%;width:100%; text-align: center; font-size: 20px;">NEXT</div>
+	            			</div>
+	            		</div>
+	            </div>
+	            <div class="swiper-slide slide3">
+	            		<div class="container">
+	            			<div style="transform: scale(0.7);">
+	            				<div class="ani" swiper-animate-effect="pulse"><img src="img/3-0.png"/></div>
+	            				<div class="row" style="margin-top: 60px;" class="ani" swiper-animate-effect="fadeInLeft">
+	            					<div class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="0.3s"><img src="img/3-1.png"/></div>
+	            					<div class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="0.6s"><img src="img/3-2.png"/></div>
+	            					<div class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="0.9s"><img src="img/3-3.png"/></div>
+	            				</div>
+	            				<div class="row" style="margin-top: 20px;">
+	            					<div  class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="1.2s"><img src="img/3-4.png"/></div>
+	            					<div  class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="1.5s"><img src="img/3-5.png"/></div>
+	            					<div  class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="1.8s"><img src="img/3-6.png"/></div>
+	            				</div>
+	            			</div>
+	            		</div>
+	            </div>
+	            <div class="swiper-slide slide4">
+	            		<div class="container">
+	            			<div style="transform: scale(0.7);">
+	            				<div class="ani" swiper-animate-effect="pulse" style="padding-bottom: 50px;"><img src="img/4-0.png"/></div>
+	            				<div class="ani" swiper-animate-effect="rotateInDownRight" swiper-animate-delay="0.3s"><img src="img/4-1.png?v=20220413"/></div>
+	            			</div>
+	            		</div>
+	            </div>
+	            <div class="swiper-slide slide5">
+	            		<div class="container-fluid">
+	            			<div style="transform: scale(0.7);">
+	            				<div class="ani" swiper-animate-effect="pulse"><img src="img/5-0.png"/></div>
+	            				<div style="color: #666; font-size: 20px; margin: 80px 0;">
+	            					<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.3s">敬请期待</p>
+								<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.6s">敬请期待</p>
+								<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.9s">敬请期待</p>
+								<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="1.2s">敬请期待</p>
+	            				</div>
+	            				<div class="row" style="margin-top: 60px;">
+	            					<div class="col-xs-3 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="1.5s"><img src="img/5-1.png" style="max-width: 310px; height: 276px;"/></div>
+	            					<div class="col-xs-3 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="1.8s"><img src="img/5-2.png" style="max-width: 310px; height: 276px;"/></div>
+	            					<div class="col-xs-3 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="2.1s"><img src="img/5-3.png" style="max-width: 310px; height: 276px;"/></div>
+	            					<div class="col-xs-3 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="2.4s"><img src="img/5-4.png" style="max-width: 310px; height: 276px;"/></div>
+	            				</div>
+	            			</div>
+	            		</div>
+	            </div>
+	            <div class="swiper-slide slide6">
+	            		<div class="container">
+	            			<div style="transform: scale(0.7);">
+	            				<div class="ani" swiper-animate-effect="pulse"><img src="img/6-0.png"/></div>
+	            				<div style="color: #666; font-size: 20px; margin: 80px 0;">
+	            					<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.3s">敬请期待</p>
+								<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.6s">敬请期待</p>
+								<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.9s">敬请期待</p>
+	            				</div>
+	            				<div class="ani" swiper-animate-effect="zoomInUp" swiper-animate-delay="1.2s"><img src="img/6-1.png"/></div>
+	            			</div>
+	            		</div>
+	            </div>
+	            <div class="swiper-slide slide7">
+	            		<div class="container">
+	            			<div style="transform: scale(0.7);">
+	            				<div class="ani" swiper-animate-effect="pulse"><img src="img/7-0.png"/></div>
+	            				<div style="color: #666; font-size: 20px; margin: 80px 0;">
+	            					<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.3s">敬请期待</p>
+								<p style="line-height: 32px;" class="ani" swiper-animate-effect="fadeInRightBig" swiper-animate-delay="0.6s">敬请期待</p>
+	            				</div>
+	            				<div class="ani" swiper-animate-effect="zoomInUp" swiper-animate-delay="1.2s"><img src="img/contact-us.png"/></div>
+	            				<!--<div class="row" style="margin: 60px 0;">
+	            					<div class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="0.9s"><img src="img/7-1.png"/></div>
+	            					<div class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="1.2s"><img src="img/7-2.png"/></div>
+	            					<div class="col-xs-4 ani" swiper-animate-effect="fadeInUp" swiper-animate-delay="1.5s"><img src="img/7-3.png"/></div>
+	            				</div>-->
+	            				<div style="font-size: 20px; margin-top: 100px;">要了解更多，请联系我们，或访问我们的页面</div>
+	            			</div>
+	            		</div>
+	            </div>
+	        </div>
+	        <!-- Add Pagination -->
+	        <div class="swiper-pagination"></div>
+	        <!--<div class="next vertical-next" id="next" style="display: block;">
+				<div><img src="./img/next.png" alt=""></div>
+			</div>-->
+	    </div>
+	    <!-- Initialize Swiper -->
+	    <script>
+	    var swiper = new Swiper('.swiper-container', {
+	        pagination: '.swiper-pagination',
+	        paginationClickable: true,
+	        mousewheelControl : true,
+	        direction: 'vertical',
+	        onInit: function(swiper){ //Swiper2.x的初始化是onFirstInit
+			    swiperAnimateCache(swiper); //隐藏动画元素 
+			    swiperAnimate(swiper); //初始化完成开始动画
+			}, 
+			onSlideChangeEnd: function(swiper){ 
+			    swiperAnimate(swiper); //每个slide切换结束时也运行当前slide动画
+			} 
+	    });
+	    </script>
+	    <div style="display:none;">
+		   <script src="" language="JavaScript"></script>
+		</div> 
+	</body>
 </html>
